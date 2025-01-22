@@ -1,13 +1,23 @@
 import { TOKEN } from "@/util/constants";
 import MovieCard from "@/app/_components/MovieCard";
 import Image from "next/image";
-import { Carousel } from "@/components/ui/carousel";
+import { CarouselHome } from "@/app/_components/Carousel";
 import { ModeToggle } from "@/components/ui/theme-toggle";
+
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 export default async function Home() {
   const popularResponse = await fetch(
     "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+    {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const nowPlayingResponse = await fetch(
+    "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
     {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
@@ -38,15 +48,15 @@ export default async function Home() {
   const popularData = await popularResponse.json();
 
   const topratedData = await topratedResponse.json();
+
+  const nowPlayingData = await nowPlayingResponse.json();
   return (
     <div className="flex justify-center items-center flex-col">
       <ModeToggle />
-      <Carousel></Carousel>
+      <CarouselHome data={nowPlayingData.results} />
+    
       <h1>Upcoming</h1>
-      {/* <Card data={upcomingData.results}>
-        <CardTitle />
-      </Card>
-      <CardContent /> */}
+     
       <MovieCard data={upcomingData.results} />
       <h1>Popular</h1>
       <MovieCard data={popularData.results} />
