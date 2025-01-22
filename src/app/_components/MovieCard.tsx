@@ -1,11 +1,14 @@
 import Image from "next/image";
 
-export default async function Card({ data }: { data: MovieType[] }) {
+export default async function MovieCard({ data }: { data: MovieType[] }) {
   return (
-    <div className="grid grid-cols-5 gap-[32px]">
+    <div className="grid grid-cols-5 gap-[32px] max-w-[1440px]">
       {data.slice(0, 10).map((d) => {
         return (
-          <div key={d.id} className="w-[239px] h-[470px] bg-[#f4f4f5] text-[#09090B] rounded-[6px] overflow-hidden">
+          <div
+            key={d.id}
+            className="w-[239px] h-[470px] bg-[#f4f4f5] text-[#09090B] rounded-[6px] overflow-hidden"
+          >
             <div className=" max-w-[239px] h-[340px] ">
               <Image
                 width={1000}
@@ -18,7 +21,13 @@ export default async function Card({ data }: { data: MovieType[] }) {
             <div className="p-4">
               <div className="text-[12px] mt-6 flex align-middle">
                 <img src="star.svg" alt="" />
-                <p><span className="text-[14px] font-bold text-[#09090B]"> {d.vote_average.toFixed(1)}</span> /10</p>
+                <p>
+                  <span className="text-[14px] font-bold text-[#09090B]">
+                    {" "}
+                    {d.vote_average.toFixed(1)}
+                  </span>{" "}
+                  /10
+                </p>
               </div>
 
               <h2 className="flex flex-col gap-6 text-[18px]">

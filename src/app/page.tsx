@@ -1,6 +1,9 @@
 import { TOKEN } from "@/util/constants";
-import Card from "@/app/_components/Card";
+import MovieCard from "@/app/_components/MovieCard";
 import Image from "next/image";
+import { Carousel } from "@/components/ui/carousel";
+import { ModeToggle } from "@/components/ui/theme-toggle";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 export default async function Home() {
   const popularResponse = await fetch(
@@ -36,13 +39,19 @@ export default async function Home() {
 
   const topratedData = await topratedResponse.json();
   return (
-    <div className="">
-         <h1>Up Coming</h1>
-         <Card data={upcomingData.results} />
-       <h1>Popular</h1>
-      <Card data={popularData.results} />
+    <div className="flex justify-center items-center flex-col">
+      <ModeToggle />
+      <Carousel></Carousel>
+      <h1>Upcoming</h1>
+      {/* <Card data={upcomingData.results}>
+        <CardTitle />
+      </Card>
+      <CardContent /> */}
+      <MovieCard data={upcomingData.results} />
+      <h1>Popular</h1>
+      <MovieCard data={popularData.results} />
       <h1>Top Rated</h1>
-      <Card data={topratedData.results} />
+      <MovieCard data={topratedData.results} />
     </div>
   );
 }
