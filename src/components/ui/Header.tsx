@@ -1,10 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
+
 import { Input } from "@/components/ui/input";
-import { ArrowDown, SunIcon, MoonIcon, ChevronDown } from "lucide-react";
+import { SunIcon, MoonIcon,ChevronDown} from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import { Genre } from "../../app/_components/Genre";
+
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -19,6 +21,7 @@ export function Header() {
           <ChevronDown />
           Genre
         </Button>
+        {/* <Genre/> */}
         <Input type="text" placeholder="Search" />
       </div>
       <Button variant="outline" size="icon" onClick={changeThemeHandler}>

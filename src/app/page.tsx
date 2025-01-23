@@ -1,4 +1,4 @@
-import { Header } from "@/app/_components/Header";
+import { Header } from "@/components/ui/Header";
 import { CarouselHome } from "@/app/_components/Carousel";
 import Upcoming from "./_components/Upcoming";
 import Popular from "./_components/Popular";
