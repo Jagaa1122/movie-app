@@ -35,7 +35,7 @@ export async function CarouselHome() {
                     width={1000}
                     height={1000}
                     className="object-cover h-[620px] w-full relative"
-                    src={`https://image.tmdb.org/t/p/w1280${d.backdrop_path}`}
+                    src={`https://image.tmdb.org/t/p/`+ "original"+`${d.backdrop_path}`}
                     alt={d.original_title}
                   ></Image>
                   <div className="absolute left-[140px] bottom-[158px] w-[302px] text-[#FAFAFA] ">
