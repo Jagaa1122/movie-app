@@ -7,7 +7,7 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
         return (
           <div
             key={d.id}
-            className="w-[239px] h-[470px] bg-[#f4f4f5] text-[#09090B] rounded-[6px] overflow-hidden"
+            className="w-[239px] h-[470px] bg-secondary rounded-[6px] overflow-hidden"
           >
             <div className=" max-w-[239px] h-[340px] ">
               <Image
@@ -22,7 +22,7 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
               <div className="text-[12px] mt-6 flex align-middle">
                 <img src="star.svg" alt="" />
                 <p>
-                  <span className="text-[14px] font-bold text-[#09090B]">
+                  <span className="text-[14px] font-bold">
                     {" "}
                     {d.vote_average.toFixed(1)}
                   </span>{" "}
