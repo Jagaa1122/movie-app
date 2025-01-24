@@ -1,11 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function MovieCard({ data }: { data: MovieType[] }) {
   return (
     <div className="grid grid-cols-5 gap-[32px] max-w-[1440px]">
       {data.slice(0, 10).map((d) => {
         return (
-          <div
+          <Link
+            href={`/Movie-detail/${d.id}`}
             key={d.id}
             className="w-[239px] h-[470px] bg-secondary rounded-[6px] overflow-hidden"
           >
@@ -34,7 +36,7 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
                 {d.original_title}
               </h2>
             </div>
-          </div>
+          </Link>
         );
       })}
     </div>
