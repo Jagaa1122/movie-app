@@ -1,6 +1,7 @@
 import { Header } from "@/app/_components/Header";
 import { TOKEN } from "@/util/constants";
 import Image from "next/image";
+import { Crew } from "./Crew"
 
 export default async function MoviePage({
   params: { movieId },
@@ -20,14 +21,21 @@ export default async function MoviePage({
   return (
     <div>
       <Header />
-      <Image
+      <div className="flex">
+        <div>
+        <Image className="w-[300px] h-[250px]"
         width={1000}
         height={1000}
-        className="size-76"
         src={`https://image.tmdb.org/t/p/original/${data.poster_path}`}
-        alt={data.original_title}
+        alt={data.original_title }
       />
-      <p>jagfjdhfkhgsdfghdftrdftydfty</p>
+        </div>
+        <div>
+          Trailer end bn 
+        </div>
+ 
+      </div>
+      {/* <Crew /> */}
     </div>
   );
 }

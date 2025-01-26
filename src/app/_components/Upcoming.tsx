@@ -19,8 +19,7 @@ export default async function Upcoming() {
       <h1 className="text-[24px] font-semibold">Upcoming</h1>
       <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">See more <ArrowRight className="p-1"/></p>
      </div>
-    
-      <MovieCard data={upcomingData.results} />
+     <MovieCard data={upcomingData.results} />
     </div>
   );
 }
