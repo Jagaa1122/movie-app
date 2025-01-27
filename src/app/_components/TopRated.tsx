@@ -15,8 +15,8 @@ export default async function TopRated() {
   );
   const topratedData = await topratedResponse.json();
   return (
-    <div className="">
-      <div className="flex justify-between">
+    <div className="mt-10">
+      <div className="flex justify-between mb-8">
         <h1 className="text-[24px] font-semibold">Top Rated</h1>
         <Link href={`/toprated`}>
           <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">

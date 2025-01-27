@@ -15,8 +15,8 @@ export default async function Upcoming() {
   );
   const upcomingData = await upcomingResponse.json();
   return (
-    <div className="">
-      <div className="flex justify-between">
+    <div className="mt-10">
+      <div className="flex justify-between mb-8">
         <h1 className="text-[24px] font-semibold">Upcoming</h1>
         <Link href={`/upcoming`}>
           <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
