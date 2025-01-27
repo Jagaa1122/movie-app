@@ -22,9 +22,7 @@ export async function Genre() {
     }
   );
   const genresData = await genresResponse.json();
-  {
-    console.log(genresData);
-  }
+
   return (
     <div>
       <DropdownMenu>

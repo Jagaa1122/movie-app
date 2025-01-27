@@ -7,7 +7,7 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
       {data.slice(0, 10).map((d) => {
         return (
           <Link
-            href={`/Movie-detail/${d.id}`}
+            href={`/${d.id}`}
             key={d.id}
             className="w-[239px] h-[470px] bg-secondary rounded-[6px] overflow-hidden"
           >

@@ -8,12 +8,10 @@ import { Footer } from "./_components/Footer";
 export default async function Home() {
   return (
     <div className="flex justify-center items-center flex-col">
-      <Header />
       <CarouselHome />
       <Upcoming />
       <Popular />
       <TopRated />
-      <Footer />
     </div>
   );
 }
