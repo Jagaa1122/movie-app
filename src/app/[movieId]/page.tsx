@@ -1,7 +1,8 @@
 import { Header } from "@/app/_components/Header";
 import { TOKEN } from "@/util/constants";
 import Image from "next/image";
-import { Link } from "lucide-react";
+// import { Link } from "lucide-react";
+import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +13,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, PlayIcon } from "lucide-react";
+import Similar from "../_components/Similar";
+import MovieCard from "@/app/_components/MovieCard copy";
 
 export default async function MoviePage(props: {
   params: Promise<{ movieId: string }>;
@@ -65,6 +68,17 @@ export default async function MoviePage(props: {
   );
 
   const trailer = await trailerData.json();
+
+  const similarResponse = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=1`,
+    {
+        headers: {
+            Authorization: `Bearer ${TOKEN}`,
+            "Content-Type": "application/json",
+        },
+    }
+);
+const similarData = await similarResponse.json();
   console.log(trailer);
   const trailerWeNeed = trailer.results.find((video: Trailer) => {
     return video.type === "Trailer";
@@ -150,6 +164,18 @@ export default async function MoviePage(props: {
           <h1 className="font-bold text-[20px]">More like this</h1>
         </div>
       </div>
+      {/* <Similar /> */}
+      <div className="mt-10">
+            <div className="flex justify-between mb-8">
+                <h1 className="text-[24px] font-semibold">Similar</h1>
+                <Link href={`/${movieId}/similar`}>
+                    <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
+                        See more <ArrowRight className="p-1" />
+                    </p>
+                </Link>
+            </div>
+            <MovieCard data={similarData.results} />
+        </div>
     </div>
   );
 }

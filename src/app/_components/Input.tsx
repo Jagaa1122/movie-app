@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight, SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -10,6 +10,8 @@ import Fetchdata from "@/util/inputData";
 const SearchInput = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   const searchHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const search = e.target.value.toLowerCase();
@@ -17,6 +19,7 @@ const SearchInput = () => {
 
     if (search === "") {
       setSearchResults([]);
+      setIsPopupVisible(false);
       return;
     }
 
@@ -26,7 +29,29 @@ const SearchInput = () => {
     console.log(searchData);
 
     setSearchResults(searchData.results || []);
+    setIsPopupVisible(true);
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+        setIsPopupVisible(false);
+      }
+    };
+
+    const handleScroll = () => {
+      setIsPopupVisible(false);
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="relative w-[381px]">
       <div className="absolute left-2.5 top-[10px] h-4 w-4 text-muted-foreground">
@@ -41,13 +66,15 @@ const SearchInput = () => {
         className="w-full h-[38px] rounded-lg bg-background py-3 pl-8 focus:outline-hidden flex items-center pt-3"
       />
 
-      {searchResults.length > 0 ? (
-        <div className="w-[577px] flex p-3 flex-col items-start rounded-[8px] border-[1px] border-[#27272a] bg-[#09090B] opacity-95 absolute z-50  mt-2 ml-[-145px]">
+      {isPopupVisible && searchResults.length > 0 ? (
+        <div
+          ref={popupRef}
+          className="w-[577px] flex p-3 flex-col items-start rounded-[8px] border-[1px] dark:border-[#27272a] dark:bg-[#09090B] bg-white  border-[#efefef] absolute z-50  mt-2 ml-[-145px]"
+        >
           {searchResults?.slice(0, 5).map((d: MovieType, index: number) => (
-            <Link href={`/${d?.id}`}>
+            <Link href={`/${d?.id}`} key={index}>
               <div
-                key={index}
-                className="flex items-start self-stretch p-2 gap-4 rounded-[8px] hover:bg-gray-700 w-[550px]"
+                className="flex items-start self-stretch p-2 gap-4 rounded-[8px] dark:hover:bg-gray-700 w-[550px] hover:bg-[#efefef]"
               >
                 <Image
                   src={`https://image.tmdb.org/t/p/original/${d?.poster_path}`}
@@ -90,12 +117,12 @@ const SearchInput = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-[550px] h-[1.5px] my-1 bg-gray-700"></div>
+              <div className="w-[550px] h-[1.5px] my-1 dark:bg-gray-700 bg-[#efefef]"></div>
             </Link>
           ))}
           <div>See all results for "{searchValue}"</div>
         </div>
-      ) : searchValue.length > 1 && searchResults.length == 0 ? (
+      ) : searchValue.length > 1 && searchResults.length === 0 ? (
         <div className="absolute mt-4 z-10 bg-white p-8">
           <p>"Not Found"</p>
         </div>

@@ -14,6 +14,8 @@ export default async function TopRated() {
     }
   );
   const topratedData = await topratedResponse.json();
+
+  
   return (
     <div className="mt-10">
       <div className="flex justify-between mb-8">
