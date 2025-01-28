@@ -1,7 +1,6 @@
 import { Header } from "@/app/_components/Header";
 import { TOKEN } from "@/util/constants";
 import Image from "next/image";
-import { Crew } from "../_components/Crew";
 import { Link } from "lucide-react";
 import {
   Dialog,
@@ -67,21 +66,29 @@ export default async function MoviePage(props: {
 
   const trailer = await trailerData.json();
   console.log(trailer);
-
+  const trailerWeNeed = trailer.results.find((video: Trailer) => {
+    return video.type === "Trailer";
+  });
+  console.log(trailerWeNeed);
+  const durationHour = data.runtime / 60;
+  const durition = data.runtime % 60;
+  const voteCount = data.vote_count / 1000;
   return (
     <div className="mx-auto max-w-[1080px]">
       <div className="flex flex-col justify-between mt-10">
         <div className="flex justify-between">
           <div>
-            <p>{data.original_title}</p>
-            <p>{data.release_date}</p>
+            <p className="text-[30px] font-bold">{data.original_title}</p>
+            <p>
+              {data.release_date} {durationHour.toFixed(0.1)}h {durition}m{" "}
+            </p>
           </div>
 
           <div className="flex justify-center items-center gap-2">
             <h2>Rating</h2>
             <img src="/star.svg" alt="" className="w-[30px] h-[50px]" />
-            <p> {data.vote_average}</p>
-            <p> {data.vote_count}</p>
+            <p> {data.vote_average.toFixed(1)}/10</p>
+            <p> {voteCount.toFixed(1)}k</p>
           </div>
         </div>
         <div className="flex gap-6">
@@ -101,33 +108,30 @@ export default async function MoviePage(props: {
                 src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`}
                 alt={data.original_title}
               />
-              <DialogTrigger className="absolute bottom-2 left-3">
-                {/* <Button variant={"secondary"} className=""> */}
-                <PlayIcon />
+              <DialogTrigger className="absolute bottom-2 left-3 text-white flex items-center gap-4">
+                <PlayIcon className="bg-white text-black rounded-full p-2 w-9 h-9" />
                 Play trailer
-                {/* </Button> */}
               </DialogTrigger>
             </div>
             <DialogContent className="w-[700px]">
-              <DialogTitle>{trailer.results[0].name}</DialogTitle>{" "}
+              <DialogTitle>{""}</DialogTitle>{" "}
               <iframe
-                src={`https://www.youtube.com/embed/${trailer.results[0].key}`}
+                src={`https://www.youtube.com/embed/${trailerWeNeed.key}`}
                 width={450}
                 height={300}
-                title={trailer.results[0].name}
               ></iframe>
             </DialogContent>
           </Dialog>
         </div>
-        <div className="flex gap-9">
+        <div className="flex gap-9 ">
           {data.genres.map((genre: GenreType, index: number) => {
             return (
-              <div className="" key={index}>
+              <div
+                className="border rounded-xl px-3 font-semibold mt-4 text-[13px]"
+                key={index}
+              >
                 {genre.name}
               </div>
-              // <button className="" key={index}>
-              //   {genre.name}
-              // </button>
             );
           })}
         </div>
@@ -143,7 +147,7 @@ export default async function MoviePage(props: {
           })}
         </div>
         <div className="flex justify-between">
-          <h1>More like this</h1>
+          <h1 className="font-bold text-[20px]">More like this</h1>
         </div>
       </div>
     </div>

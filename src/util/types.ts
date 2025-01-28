@@ -13,18 +13,25 @@ type MovieType = {
   video: boolean;
   vote_average: number;
   vote_count: number;
- };
+  job: string;
+  type: string;
+  name: string;
+};
 
 type GenreType = {
-  id:number;
-  name:string;
+  id: number;
+  name: string;
 };
- 
+
 type CrewType = {
-  known_for_department: string;
-  name:string;
+  job: string;
+  id: number;
 };
 
 type CastType = {
-  name:string;
-}
+  name: string;
+};
+type Trailer = {
+  id: string;
+  type: string;
+};

@@ -1,6 +1,7 @@
 import { TOKEN } from "@/util/constants";
 import MovieCard from "@/app/_components/MovieCard";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default async function Popular() {
   const popularResponse = await fetch(
@@ -16,10 +17,14 @@ export default async function Popular() {
   return (
     <div className="mt-10">
       <div className="flex justify-between mb-8">
-       <h1 className="text-[24px] font-semibold">Popular</h1>
-       <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">See more <ArrowRight className="p-1"/></p>
-       </div>
-       <MovieCard data={popularData.results} />
+        <h1 className="text-[24px] font-semibold">Popular</h1>
+        <Link href={`/popular`}>
+          <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
+            See more <ArrowRight className="p-1" />
+          </p>
+        </Link>
+      </div>
+      <MovieCard data={popularData.results} />
     </div>
   );
 }
