@@ -37,3 +37,12 @@ type Trailer = {
   id: string;
   type: string;
 };
+type Genres = {
+  name: string;
+  id: number;
+  total_results: number;
+};
+type Genre = {
+  id: number;
+  name: string;
+}
