@@ -2,9 +2,13 @@ import { TOKEN } from "@/util/constants";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function () {
-  const topratedResponse = await fetch(
-    "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
+export default async function (props: {
+  params: Promise<{ category: string }>;
+}) {
+  const params = await props.params;
+  const { category } = params;
+  const popularResponse = await fetch(
+    `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`,
     {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
@@ -12,7 +16,7 @@ export default async function () {
       },
     }
   );
-  const data = await topratedResponse.json();
+  const data = await popularResponse.json();
   console.log(data);
   return (
     <div>
@@ -35,7 +39,7 @@ export default async function () {
               </div>
               <div className="p-4">
                 <div className="text-[12px] mt-6 flex align-middle">
-                  <img src="star.svg" alt="" />
+                  <img src="/star.svg" alt="" />
                   <p>
                     <span className="text-[14px] font-bold">
                       {" "}

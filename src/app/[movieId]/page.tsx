@@ -45,18 +45,6 @@ export default async function MoviePage(props: {
 
   const actorsData = await actors.json();
 
-  const moreLikeData = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=1`,
-    {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  const moreLikeDat = await moreLikeData.json();
-
   const trailerData = await fetch(
     `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US&page=1`,
     {
@@ -72,18 +60,25 @@ export default async function MoviePage(props: {
   const similarResponse = await fetch(
     `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=1`,
     {
-        headers: {
-            Authorization: `Bearer ${TOKEN}`,
-            "Content-Type": "application/json",
-        },
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        "Content-Type": "application/json",
+      },
     }
-);
-const similarData = await similarResponse.json();
-  console.log(trailer);
-  const trailerWeNeed = trailer.results.find((video: Trailer) => {
+  );
+  const similarData = await similarResponse.json();
+
+  const trailerWeNeed = trailer.results?.find((video: Trailer) => {
     return video.type === "Trailer";
   });
-  console.log(trailerWeNeed);
+  const director = actorsData.crew?.find((job: CrewType) => {
+    return job.job === "Director";
+  });
+  const writer = actorsData.crew?.find((writer: CrewType) => {
+    return writer.job === "Writer";
+  });
+  console.log(director);
+
   const durationHour = data.runtime / 60;
   const durition = data.runtime % 60;
   const voteCount = data.vote_count / 1000;
@@ -101,7 +96,7 @@ const similarData = await similarResponse.json();
           <div className="flex justify-center items-center gap-2">
             <h2>Rating</h2>
             <img src="/star.svg" alt="" className="w-[30px] h-[50px]" />
-            <p> {data.vote_average.toFixed(1)}/10</p>
+            <p> {data.vote_average?.toFixed(1)}/10</p>
             <p> {voteCount.toFixed(1)}k</p>
           </div>
         </div>
@@ -130,15 +125,16 @@ const similarData = await similarResponse.json();
             <DialogContent className="w-[700px]">
               <DialogTitle>{""}</DialogTitle>{" "}
               <iframe
-                src={`https://www.youtube.com/embed/${trailerWeNeed.key}`}
+                src={`https://www.youtube.com/embed/${trailerWeNeed?.key}`}
                 width={450}
                 height={300}
+                allowFullScreen
               ></iframe>
             </DialogContent>
           </Dialog>
         </div>
         <div className="flex gap-9 ">
-          {data.genres.map((genre: GenreType, index: number) => {
+          {data.genres?.map((genre: GenreType, index: number) => {
             return (
               <div
                 className="border rounded-xl px-3 font-semibold mt-4 text-[13px]"
@@ -150,32 +146,27 @@ const similarData = await similarResponse.json();
           })}
         </div>
         <p className="">{data.overview}</p>
-        <h2 className="flex">Director: {data.directer}</h2>
-        <p className=" flex gap-5">
-          {actorsData.crew[0].job} {actorsData.crew[0].name}
-        </p>
-        <p>{actorsData.crew[1].department}</p>
+        <h2 className="flex">Director: {director?.name}</h2>
+        <p className=" flex gap-5">Writer: {writer?.name}</p>
         <div className="flex">
-          {actorsData.cast.slice(0, 5).map((star: GenreType, index: number) => {
+          <p>Stars:</p>
+          {actorsData.cast?.slice(0, 5).map((star: CastType, index: number) => {
             return <p key={index}>{star.name}</p>;
           })}
-        </div>
-        <div className="flex justify-between">
-          <h1 className="font-bold text-[20px]">More like this</h1>
         </div>
       </div>
       {/* <Similar /> */}
       <div className="mt-10">
-            <div className="flex justify-between mb-8">
-                <h1 className="text-[24px] font-semibold">Similar</h1>
-                <Link href={`/${movieId}/similar`}>
-                    <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
-                        See more <ArrowRight className="p-1" />
-                    </p>
-                </Link>
-            </div>
-            <MovieCard data={similarData.results} />
+        <div className="flex justify-between mb-8">
+          <h1 className="text-[24px] font-semibold">More like this</h1>
+          <Link href={`/${movieId}/similar`}>
+            <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
+              See more <ArrowRight className="p-1" />
+            </p>
+          </Link>
         </div>
+        <MovieCard data={similarData.results} />
+      </div>
     </div>
   );
 }

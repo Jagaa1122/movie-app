@@ -9,9 +9,9 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
           <Link
             href={`/${d.id}`}
             key={d.id}
-            className="w-[239px] h-[470px] bg-secondary rounded-[6px] overflow-hidden"
+            className="max-w-[230px] bg-secondary rounded-[6px] overflow-hidden"
           >
-            <div className=" max-w-[239px] h-[340px] ">
+            <div className=" max-w-[230px] h-[300px] ">
               <Image
                 width={1000}
                 height={1000}
@@ -20,8 +20,8 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
                 alt={d.original_title}
               />
             </div>
-            <div className="p-4">
-              <div className="text-[12px] mt-6 flex align-middle">
+            <div className="p-1">
+              <div className="text-[12px] flex ">
                 <img src="star.svg" alt="" />
                 <p>
                   <span className="text-[14px] font-bold">

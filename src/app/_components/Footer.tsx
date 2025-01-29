@@ -1,20 +1,21 @@
 import { Copyright, Mail, Phone } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Footer = () => {
   return (
     <div className="mt-[40px] flex bg-[#4338CA] text-[#FAFAFA] gap-[100px] py-8 px-[20px] text-[14px]">
       <div className="mr-auto">
-        <Image
-          className="mb-3"
-          alt={"logo"}
-          width={100}
-          height={100}
-          src={"/Logo copy.svg"}
-        />
-        <p className="flex ">
-          &copy; 2024 Movie Z. All Rights Reserved.
-        </p>
+        <Link href={`http://localhost:3000/`}>
+          <Image
+            className="mb-3"
+            alt={"logo"}
+            width={100}
+            height={100}
+            src={"/Logo copy.svg"}
+          />
+        </Link>
+        <p className="flex ">&copy; 2024 Movie Z. All Rights Reserved.</p>
       </div>
       <div className="">
         <p className="mb-3">Contact Information</p>

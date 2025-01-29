@@ -26,9 +26,11 @@ type GenreType = {
 type CrewType = {
   job: string;
   id: number;
+  name: string;
 };
 
 type CastType = {
+  id: number;
   name: string;
 };
 type Trailer = {

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, PlayIcon } from "lucide-react";
+import Link from "next/link";
+import Trailer from "./Trailer";
 
 export async function CarouselHome() {
   const nowPlayingResponse = await fetch(
@@ -22,7 +24,20 @@ export async function CarouselHome() {
       },
     }
   );
+  const trailerData = await fetch(
+    `https://api.themoviedb.org/3/movie/videos?language=en-US&page=1`,
+    {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const nowPlayingData = await nowPlayingResponse.json();
+  const trailer = await trailerData.json();
+  const trailerWeNeed = trailer.results?.find((video: Trailer) => {
+    return video.type === "Trailer";
+  });
   return (
     <Carousel className="w-full" opts={{ loop: true }}>
       <CarouselContent>
@@ -31,16 +46,22 @@ export async function CarouselHome() {
             <CarouselItem key={d.id}>
               <Card className="relative">
                 <CardContent className="p-0 border-0">
-                  <Image
-                    width={3000}
-                    height={3000}
-                    className="object-cover h-[620px] w-full relative"
-                    src={`https://image.tmdb.org/t/p/`+ "original"+`${d.backdrop_path}`}
-                    alt={d.original_title}
-                  ></Image>
+                  <Link href={`/${d.id}`}>
+                    <Image
+                      width={3000}
+                      height={3000}
+                      className="object-cover h-[620px] w-full relative"
+                      src={
+                        `https://image.tmdb.org/t/p/` +
+                        "original" +
+                        `${d.backdrop_path}`
+                      }
+                      alt={d.original_title}
+                    ></Image>
+                  </Link>
                   <div className="absolute left-[140px] bottom-[158px] w-[302px] text-[#FAFAFA] ">
                     <p className="">Now Playing:</p>
-                    <p className="text-[20px] font-bold">{d.original_title}</p> 
+                    <p className="text-[20px] font-bold">{d.original_title}</p>
                     <p className="flex text-[16px] items-center gap-1">
                       <img className="size-7" src="star.svg" alt="" />
                       <span className="text-[18px] font-bold flex">
@@ -50,10 +71,11 @@ export async function CarouselHome() {
                       /10
                     </p>
                     <p className="text-wrap mb-[15px]">{d.overview}</p>
-                    <Button variant={"secondary"} className="">
+                    {/* <Button variant={"secondary"}>
                       <PlayIcon />
                       Watch Trailer
-                    </Button>
+                    </Button> */}
+                    <Trailer data={d.id} />
                   </div>
                 </CardContent>
 

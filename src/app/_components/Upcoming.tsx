@@ -18,7 +18,7 @@ export default async function Upcoming() {
     <div className="mt-10">
       <div className="flex justify-between mb-8">
         <h1 className="text-[24px] font-semibold">Upcoming</h1>
-        <Link href={`/upcoming`}>
+        <Link href={`/category/upcoming`}>
           <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
             See more <ArrowRight className="p-1" />
           </p>
