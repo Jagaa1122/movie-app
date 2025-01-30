@@ -1,19 +1,13 @@
-import { Header } from "@/app/_components/Header";
 import { TOKEN } from "@/util/constants";
 import Image from "next/image";
-// import { Link } from "lucide-react";
 import Link from "next/link";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, PlayIcon } from "lucide-react";
-import Similar from "../_components/Similar";
 import MovieCard from "@/app/_components/MovieCard copy";
 
 export default async function MoviePage(props: {
@@ -155,11 +149,10 @@ export default async function MoviePage(props: {
           })}
         </div>
       </div>
-      {/* <Similar /> */}
       <div className="mt-10">
         <div className="flex justify-between mb-8">
           <h1 className="text-[24px] font-semibold">More like this</h1>
-          <Link href={`/${movieId}/similar`}>
+          <Link href={`/similar/${movieId}`}>
             <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
               See more <ArrowRight className="p-1" />
             </p>

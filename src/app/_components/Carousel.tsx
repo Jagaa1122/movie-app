@@ -9,8 +9,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, PlayIcon } from "lucide-react";
 import Link from "next/link";
 import Trailer from "./Trailer";
 
@@ -71,10 +69,7 @@ export async function CarouselHome() {
                       /10
                     </p>
                     <p className="text-wrap mb-[15px]">{d.overview}</p>
-                    {/* <Button variant={"secondary"}>
-                      <PlayIcon />
-                      Watch Trailer
-                    </Button> */}
+
                     <Trailer data={d.id} />
                   </div>
                 </CardContent>

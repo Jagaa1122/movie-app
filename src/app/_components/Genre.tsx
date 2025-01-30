@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export async function Genre() {
   const genresResponse = await fetch(
@@ -41,14 +42,16 @@ export async function Genre() {
           <DropdownMenuGroup className="w-[600px] flex flex-wrap">
             {genresData.genres.map((data: GenreType) => {
               return (
-                <DropdownMenuItem
-                  key={data.id}
-                  className="flex bg-secondary rounded-[6px] overflow-hidden"
-                >
-                  <p className="flex gap-6 text-[12px] border-[1px] border-neutral-500 rounded-lg cursor-pointer p-1">
-                    {data?.name} <ChevronRight className="size-4" />
-                  </p>
-                </DropdownMenuItem>
+                <Link key={data.id} href={`/genres/${data.id}`}>
+                  <DropdownMenuItem
+                    key={data.id}
+                    className="flex bg-secondary rounded-[6px] overflow-hidden"
+                  >
+                    <p className="flex gap-6 text-[12px] border-[1px] border-neutral-500 rounded-lg cursor-pointer p-1">
+                      {data?.name} <ChevronRight className="size-4" />
+                    </p>
+                  </DropdownMenuItem>
+                </Link>
               );
             })}
           </DropdownMenuGroup>
