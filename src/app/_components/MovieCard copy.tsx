@@ -4,7 +4,7 @@ import Link from "next/link";
 export default async function MovieCard({ data }: { data: MovieType[] }) {
   return (
     <div className="grid grid-cols-5 gap-[32px] max-w-[1440px]">
-      {data.slice(0, 5).map((d) => {
+      {data?.slice(0, 5).map((d) => {
         return (
           <Link
             href={`/${d.id}`}

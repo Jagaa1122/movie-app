@@ -7,8 +7,14 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
-export default function ({ params }: { params: Promise<{ genresId: string }> }) {
-  const [resolvedParams, setResolvedParams] = useState<{ genresId: string } | null>(null);
+export default function ({
+  params,
+}: {
+  params: Promise<{ genresId: string }>;
+}) {
+  const [resolvedParams, setResolvedParams] = useState<{
+    genresId: string;
+  } | null>(null);
   const [movies, setMovies] = useState<MovieType[]>([]);
   const [genres, setGenres] = useState<GenreType[]>([]);
   const router = useRouter();
@@ -98,14 +104,14 @@ export default function ({ params }: { params: Promise<{ genresId: string }> }) 
             </ToggleGroup>
           </div>
 
-          <div className="w-[1189px] h-[1px] flex flex-col px-4 gap-[10px] self-stretch rotate-90 bg-white"></div>
+          <div className="w-[1189px] h-[1px] flex flex-col px-4 gap-[10px] self-stretch rotate-90 bg-white border-l-0,5 pl-[20px]"></div>
 
           <div className="w-[806px] flex flex-col items-start gap-8">
             <p className="flex flex-col items-start gap-8">Movies</p>
             <div className="w-[806px] items-start flex flex-wrap self-stretch gap-8">
               {movies?.map((d: MovieType) => (
                 <Link key={d.id} href={`/${d.id}`}>
-                  <div className="bg-secondary rounded-[8px] overflow-hidden w-[160px] h-[320px] cursor-pointer">
+                  <div className="bg-secondary rounded-[8px] overflow-hidden w-[160px] h-[320px] cursor-pointer hover:opacity-50 easin">
                     <Image
                       src={`https://image.tmdb.org/t/p/original/${d.poster_path}`}
                       alt={`Poster of ${d.original_title}`}

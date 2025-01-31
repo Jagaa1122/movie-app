@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Genre } from "./Genre";
 import { ThemeChanger } from "../../components/ui/ThemeChanger";

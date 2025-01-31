@@ -32,26 +32,10 @@ const SearchInput = () => {
     setIsPopupVisible(true);
   };
 
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
-        setIsPopupVisible(false);
-      }
-    };
-
-    const handleScroll = () => {
-      setIsPopupVisible(false);
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
+  const clickHandler = () => {
+    setSearchResults([]);
+    setSearchValue("");
+  };
   return (
     <div className="relative w-[381px]">
       <div className="absolute left-2.5 top-[10px] h-4 w-4 text-muted-foreground">
@@ -72,10 +56,8 @@ const SearchInput = () => {
           className="w-[577px] flex p-3 flex-col items-start rounded-[8px] border-[1px] dark:border-[#27272a] dark:bg-[#09090B] bg-white  border-[#efefef] absolute z-50  mt-2 ml-[-145px]"
         >
           {searchResults?.slice(0, 5).map((d: MovieType, index: number) => (
-            <Link href={`/${d?.id}`} key={index}>
-              <div
-                className="flex items-start self-stretch p-2 gap-4 rounded-[8px] dark:hover:bg-gray-700 w-[550px] hover:bg-[#efefef]"
-              >
+            <Link href={`/${d?.id}`} key={index} onClick={() => clickHandler()}>
+              <div className="flex items-start self-stretch p-2 gap-4 rounded-[8px] dark:hover:bg-gray-700 w-[550px] hover:bg-[#efefef]">
                 <Image
                   src={`https://image.tmdb.org/t/p/original/${d?.poster_path}`}
                   width={67}

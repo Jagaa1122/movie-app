@@ -18,7 +18,7 @@ export default async function Popular() {
     <div className="mt-10">
       <div className="flex justify-between mb-8">
         <h1 className="text-[24px] font-semibold">Popular</h1>
-        <Link href={`/popular`}>
+        <Link href={`/category/popular`}>
           <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
             See more <ArrowRight className="p-1" />
           </p>

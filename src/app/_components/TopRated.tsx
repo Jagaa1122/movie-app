@@ -15,12 +15,11 @@ export default async function TopRated() {
   );
   const topratedData = await topratedResponse.json();
 
-  
   return (
     <div className="mt-10">
       <div className="flex justify-between mb-8">
         <h1 className="text-[24px] font-semibold">Top Rated</h1>
-        <Link href={`/toprated`}>
+        <Link href={`/category/top_rated`}>
           <p className="font-semibold flex text-[16px] hover:underline underline-offset-4 cursor-pointer">
             See more <ArrowRight className="p-1" />
           </p>

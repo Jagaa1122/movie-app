@@ -1,3 +1,4 @@
+import MoviePagination from "@/app/_components/Pagination";
 import { TOKEN } from "@/util/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,7 +22,7 @@ export default async function (props: {
   return (
     <div>
       <div className="grid grid-cols-5 gap-[32px] max-w-[1440px]">
-        {data.results.slice(0, 20).map((d: MovieType, index: number) => {
+        {data.results?.slice(0, 20).map((d: MovieType, index: number) => {
           return (
             <Link
               href={`/${d.id}`}
@@ -43,7 +44,7 @@ export default async function (props: {
                   <p>
                     <span className="text-[14px] font-bold">
                       {" "}
-                      {d.vote_average.toFixed(1)}
+                      {d.vote_average?.toFixed(1)}
                     </span>{" "}
                     /10
                   </p>
@@ -57,6 +58,7 @@ export default async function (props: {
           );
         })}
       </div>
+      {/* <MoviePagination currentPage={} /> */}
     </div>
   );
 }
