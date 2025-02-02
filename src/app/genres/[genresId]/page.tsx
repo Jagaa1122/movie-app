@@ -2,7 +2,7 @@
 import { TOKEN } from "@/util/constants";
 import Image from "next/image";
 import Link from "next/link";
-import { Pagination } from "@/components/ui/pagination";
+import  GenrePagination  from "@/app/_components/GenrePagination";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -17,9 +17,11 @@ export default function ({
   } | null>(null);
   const [movies, setMovies] = useState<MovieType[]>([]);
   const [genres, setGenres] = useState<GenreType[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const router = useRouter();
   const searchParams = useSearchParams();
   const genreIds = searchParams.get("genreIds") || "";
+  const page = searchParams.get("page") ? Number(searchParams.get("page") ) : 1;
 
   // Unwrap `params` correctly
   useEffect(() => {
@@ -52,7 +54,7 @@ export default function ({
         // Fetch movies based on selected genres
         const selectedGenres = genreIds ? genreIds : resolvedParams.genresId;
         const movieResponse = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${selectedGenres}&page=1`,
+          `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${selectedGenres}&page=${page}`,
           {
             headers: {
               Authorization: `Bearer ${TOKEN}`,
@@ -62,22 +64,27 @@ export default function ({
         );
         const movieData = await movieResponse.json();
         setMovies(movieData.results);
+        setTotalPages(movieData.total_pages);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
 
     fetchGenresAndMovies();
-  }, [resolvedParams, genreIds]);
+  }, [resolvedParams, genreIds,page]);
 
   // Handle genre selection
   const onValueChange = (values: string[]) => {
-    router.push(`?genreIds=${values.join(",")}`);
+    const params = new URLSearchParams();
+    if (values.length > 0 ){
+     params.set("genreIds", values.join(","));
+    }
+    params.set("page","1");
+    router.push(`?${params.toString()}`);
   };
 
   return (
-    <div className="w-[1440px] h-full flex flex-col items-center mt-5">
-      <div className="w-[1280px] h-full flex flex-col items-start gap-8">
+     <div className="w-[1280px] h-full flex flex-col items-start gap-8 mx-auto">
         <p className="text-[30px] font-semibold">Search filter</p>
         <div className="flex items-start self-stretch gap-1 h-full">
           <div className="w-[387px] flex flex-col items-start gap-5 text-secondary-foreground">
@@ -90,13 +97,13 @@ export default function ({
             <ToggleGroup
               onValueChange={onValueChange}
               type="multiple"
-              className="w-[387px] flex items-start content-start gap-4 self-stretch flex-wrap"
+              className="w-[387px] flex items-start content-start gap-4  flex-wrap justify-start "
             >
               {genres?.map((d: GenreType) => (
                 <ToggleGroupItem
                   value={d.id.toString()}
                   key={d.id}
-                  className="w-[87px] gap-4 self-stretch"
+                  className="w-[87px] gap-4 justify-start"
                 >
                   {d.name}
                 </ToggleGroupItem>
@@ -148,10 +155,11 @@ export default function ({
                 </Link>
               ))}
             </div>
-            <Pagination />
+           
           </div>
         </div>
+        <GenrePagination currentPage={page} totalPages={totalPages} />
       </div>
-    </div>
+   
   );
 }

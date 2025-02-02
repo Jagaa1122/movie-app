@@ -8,9 +8,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useSearchParams, usePathname, useRouter} from "next/navigation";
+import { useSearchParams, useRouter} from "next/navigation";
 
-export default function MoviePagination({
+export default function GenrePagination({
   currentPage,
   totalPages,
 }: {
@@ -18,9 +18,17 @@ export default function MoviePagination({
   totalPages: number;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const genreIds = searchParams.get("genreIds") || "" ;
+
 
   const goToPage = (page: number) => {
-    router.push(`?page=${page}`);
+    const currentSearchParams = new URLSearchParams(searchParams.toString());
+    if (genreIds){
+     currentSearchParams.set("genreIds", genreIds);
+    }
+    currentSearchParams.set("page", page.toString());
+    router.push(`?${currentSearchParams.toString()}`);
   };
 
   return (

@@ -1,15 +1,19 @@
-import MoviePagination from "@/app/_components/Pagination";
 import { TOKEN } from "@/util/constants";
 import Image from "next/image";
 import Link from "next/link";
+import Pagination from "@/app/_components/Pagination";
 
-export default async function (props: {
-  params: Promise<{ category: string }>;
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { category: string };
+  searchParams: { page?: string };
 }) {
-  const params = await props.params;
   const { category } = params;
-  const popularResponse = await fetch(
-    `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`,
+  const page = searchParams.page ? Number(searchParams.page) : 1;
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`,
     {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
@@ -17,8 +21,10 @@ export default async function (props: {
       },
     }
   );
-  const data = await popularResponse.json();
-  console.log(data);
+
+  const data = await response.json();
+  console.log(`Fetching page: ${page}`, data);
+
   return (
     <div>
       <div className="grid grid-cols-5 gap-[32px] max-w-[1440px]">
@@ -58,7 +64,7 @@ export default async function (props: {
           );
         })}
       </div>
-      {/* <MoviePagination currentPage={} /> */}
+      <Pagination currentPage={page} totalPages={data.total_pages} />
     </div>
   );
 }

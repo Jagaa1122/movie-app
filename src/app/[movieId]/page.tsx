@@ -140,9 +140,9 @@ export default async function MoviePage(props: {
           })}
         </div>
         <p className="">{data.overview}</p>
-        <h2 className="flex">Director: {director?.name}</h2>
-        <p className=" flex gap-5">Writer: {writer?.name}</p>
-        <div className="flex">
+        <h2 className="flex font-semibold ">Director: {director?.name}</h2>
+        <p className=" flex gap-5 font-semibold">Writer: {writer?.name}</p>
+        <div className="flex font-semibold" >
           <p>Stars:</p>
           {actorsData.cast?.slice(0, 5).map((star: CastType, index: number) => {
             return <p key={index}>{star.name}</p>;
