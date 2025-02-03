@@ -71,7 +71,7 @@ export default async function MoviePage(props: {
   const writer = actorsData.crew?.find((writer: CrewType) => {
     return writer.job === "Writer";
   });
-  console.log(director);
+  // console.log(director);
 
   const durationHour = data.runtime / 60;
   const durition = data.runtime % 60;
@@ -142,7 +142,7 @@ export default async function MoviePage(props: {
         <p className="">{data.overview}</p>
         <h2 className="flex font-semibold ">Director: {director?.name}</h2>
         <p className=" flex gap-5 font-semibold">Writer: {writer?.name}</p>
-        <div className="flex font-semibold" >
+        <div className="flex font-semibold">
           <p>Stars:</p>
           {actorsData.cast?.slice(0, 5).map((star: CastType, index: number) => {
             return <p key={index}>{star.name}</p>;
