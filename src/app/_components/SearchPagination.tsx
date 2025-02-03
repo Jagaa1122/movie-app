@@ -27,7 +27,7 @@ export default function SearchPagination({
   };
 
   return (
-    <Pagination className="ml-[470px] mt-10">
+    <Pagination className=" mt-10">
       <PaginationContent>
         {currentPage > 1 && (
           <PaginationItem>
