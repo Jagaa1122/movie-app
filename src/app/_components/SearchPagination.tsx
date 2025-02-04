@@ -23,11 +23,23 @@ export default function SearchPagination({
   const goToPage = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
+
+    // Preserve the query and genre filters
+    const query = searchParams.get("query");
+    const genreIds = searchParams.get("genreIds");
+
+    if (query) {
+      params.set("query", query);
+    }
+    if (genreIds) {
+      params.set("genreIds", genreIds);
+    }
+
     router.push(`/search?${params.toString()}`);
   };
 
   return (
-    <Pagination className=" mt-10">
+    <Pagination className="mt-10">
       <PaginationContent>
         {currentPage > 1 && (
           <PaginationItem>

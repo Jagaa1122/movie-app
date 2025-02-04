@@ -42,6 +42,7 @@ export default function SearchResults() {
   const genreIds = searchParams.get("genreIds") || "";
 
   const [searchData, setSearchData] = useState<any>(null);
+  const [filteredResults, setFilteredResults] = useState<any[]>([]);
   const [genres, setGenres] = useState<any[]>([]);
 
   useEffect(() => {
@@ -50,28 +51,35 @@ export default function SearchResults() {
       setGenres(genresData.genres);
 
       const moviesData = await getMovies(query, currentPage);
-      console.log("Movie data", moviesData);
-      console.log("My selected genres", genreIds.split(","));
       setSearchData(moviesData);
+
+      // Filter results based on selected genres
+      if (genreIds) {
+        const selectedGenres = genreIds.split(",").map(Number);
+        const filtered = moviesData.results.filter((movie: MovieType) =>
+          selectedGenres.some(genreId => movie.genre_ids.includes(genreId))
+        );
+        setFilteredResults(filtered);
+      } else {
+        setFilteredResults(moviesData.results || []);
+      }
     };
 
     fetchData();
-  }, [query, currentPage]);
+  }, [query, currentPage, genreIds]);
 
-  const handleGenreClick = (genreId: string) => {
-    router.push(`/genres/${genreId}`);
+  const onValueChange = (values: string[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (values.length > 0) {
+      params.set("genreIds", values.join(","));
+    } else {
+      params.delete("genreIds");
+    }
+    params.set("page", "1"); 
+    router.push(`/search?${params.toString()}`);
   };
 
   if (!searchData || !genres) return null;
-
-  const onValueChange = (values: string[]) => {
-    const params = new URLSearchParams();
-    if (values.length > 0) {
-      params.set("genreIds", values.join(","));
-    }
-    params.set("page", "1");
-    router.push(`?query=${query}&${params.toString()}`);
-  };
 
   return (
     <div className="px-[20px] max-w-[1280px] mx-auto">
@@ -83,7 +91,7 @@ export default function SearchResults() {
           </h1>
 
           <div className="w-[806px] items-start flex flex-wrap self-stretch gap-8">
-            {searchData.results?.map((movie: MovieType) => (
+            {filteredResults.map((movie: MovieType) => (
               <Link key={movie.id} href={`/${movie.id}`}>
                 <div className="bg-secondary rounded-[8px] overflow-hidden w-[160px] h-[320px] cursor-pointer hover:opacity-50 easin">
                   <Image
@@ -138,19 +146,20 @@ export default function SearchResults() {
             <div className="w-[213px] flex flex-col items-start gap-1 mb-6">
               <p className="text-[24px] font-semibold">Genres</p>
               <p className="text-[16px] font-normal">
-                See lists of movies by genre
+                Filter search results by genre
               </p>
             </div>
             <ToggleGroup
               onValueChange={onValueChange}
               type="multiple"
-              className="w-[387px] flex items-start content-start gap-4  flex-wrap justify-start "
+              defaultValue={genreIds.split(",")}
+              className="w-[387px] flex items-start content-start gap-4 flex-wrap justify-start"
             >
               {genres?.map((d: GenreType) => (
                 <ToggleGroupItem
                   value={d.id.toString()}
                   key={d.id}
-                  className="w-[87px] gap-4 "
+                  className="w-[87px] gap-4"
                 >
                   {d.name}
                 </ToggleGroupItem>
