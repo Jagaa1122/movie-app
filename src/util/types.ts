@@ -36,6 +36,7 @@ type CastType = {
 type Trailer = {
   id: string;
   type: string;
+  key: string;
 };
 type Genres = {
   name: string;
@@ -45,4 +46,4 @@ type Genres = {
 type Genre = {
   id: number;
   name: string;
-}
+};

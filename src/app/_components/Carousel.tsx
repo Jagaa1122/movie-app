@@ -1,7 +1,9 @@
+"use client";
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { TOKEN } from "@/util/constants";
+import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -11,35 +13,41 @@ import {
 } from "@/components/ui/carousel";
 import Link from "next/link";
 import Trailer from "./Trailer";
+import Autoplay from "embla-carousel-autoplay";
 
-export async function CarouselHome() {
-  const nowPlayingResponse = await fetch(
-    "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
-    {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    }
+export function CarouselHome() {
+  const [data, setData] = useState<MovieType[] | null>(null);
+
+  const getData = async () => {
+    const nowPlayingResponse = await fetch(
+      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const nowPlayingData = await nowPlayingResponse.json();
+    setData(nowPlayingData.results || []);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
   );
-  const trailerData = await fetch(
-    `https://api.themoviedb.org/3/movie/videos?language=en-US&page=1`,
-    {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  const nowPlayingData = await nowPlayingResponse.json();
-  const trailer = await trailerData.json();
-  const trailerWeNeed = trailer.results?.find((video: Trailer) => {
-    return video.type === "Trailer";
-  });
   return (
-    <Carousel className="w-full" opts={{ loop: true }}>
+    <Carousel
+      className="w-full"
+      opts={{ loop: true }}
+      plugins={[plugin.current]}
+      onMouseEnter={plugin.current.stop}
+      onMouseLeave={plugin.current.reset}
+    >
       <CarouselContent>
-        {nowPlayingData.results.slice(0, 10).map((d: MovieType) => {
+        {data?.slice(0, 10).map((d: MovieType) => {
           return (
             <CarouselItem key={d.id}>
               <Card className="relative">
