@@ -55,9 +55,12 @@ export default function SearchResults() {
 
       // Filter results based on selected genres
       if (genreIds) {
-        const selectedGenres = genreIds.split(",").map(Number);
+        // const selectedGenres = genreIds.split(",").map( genres: number);
         const filtered = moviesData.results.filter((movie: MovieType) =>
-          selectedGenres.some(genreId => movie.genre_ids.includes(genreId))
+          movie.genre_ids.some(
+            (genreId) => genreIds.includes(genreId)
+            // selectedGenres.some(genreId => movie.genre_ids.includes(genre)
+          )
         );
         setFilteredResults(filtered);
       } else {
@@ -75,7 +78,7 @@ export default function SearchResults() {
     } else {
       params.delete("genreIds");
     }
-    params.set("page", "1"); 
+    params.set("page", "1");
     router.push(`/search?${params.toString()}`);
   };
 
