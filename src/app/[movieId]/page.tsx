@@ -127,26 +127,34 @@ export default async function MoviePage(props: {
             </DialogContent>
           </Dialog>
         </div>
-        <div className="flex gap-9 ">
-          {data.genres?.map((genre: GenreType, index: number) => {
-            return (
-              <div
-                className="border rounded-xl px-3 font-semibold mt-4 text-[13px]"
-                key={index}
-              >
-                {genre.name}
-              </div>
-            );
-          })}
-        </div>
-        <p className="">{data.overview}</p>
-        <h2 className="flex font-semibold ">Director: {director?.name}</h2>
-        <p className=" flex gap-5 font-semibold">Writer: {writer?.name}</p>
-        <div className="flex font-semibold">
-          <p>Stars:</p>
-          {actorsData.cast?.slice(0, 5).map((star: CastType, index: number) => {
-            return <p key={index}>{star.name}</p>;
-          })}
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-9 ">
+            {data.genres?.map((genre: GenreType, index: number) => {
+              return (
+                <div
+                  className="border rounded-xl px-3 font-semibold mt-4 text-[13px]"
+                  key={index}
+                >
+                  {genre.name}
+                </div>
+              );
+            })}
+          </div>
+          <p className="">{data.overview}</p>
+          <h2 className="flex font-semibold border-b-[1px] border-secondary">
+            Director: {director?.name}
+          </h2>
+          <p className=" flex gap-5 font-semibold border-b-[1px] border-secondary">
+            Writer: {writer?.name}
+          </p>
+          <div className="flex font-semibold border-b-[1px] border-secondary">
+            <p>Stars:</p>
+            {actorsData.cast
+              ?.slice(0, 5)
+              .map((star: CastType, index: number) => {
+                return <p key={index}>{star.name}</p>;
+              })}
+          </div>
         </div>
       </div>
       <div className="mt-10">
