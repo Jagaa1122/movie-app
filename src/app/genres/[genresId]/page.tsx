@@ -110,9 +110,7 @@ export default function ({
             ))}
           </ToggleGroup>
         </div>
-
         <div className="w-[1189px] h-[1px] flex flex-col px-4 gap-[10px] self-stretch rotate-90 bg-white border-l-0,5 pl-[20px]"></div>
-
         <div className="w-[806px] flex flex-col items-start gap-8">
           <p className="flex flex-col items-start gap-8">Movies</p>
           <div className="w-[806px] items-start flex flex-wrap self-stretch gap-8">
