@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { ArrowRight, PlayIcon } from "lucide-react";
 import MovieCard from "@/app/_components/MovieCard copy";
+import { CastType, CrewType, GenreType, TrailerType } from "@/util/types";
 
 export default async function MoviePage(props: {
   params: Promise<{ movieId: string }>;
@@ -62,7 +63,7 @@ export default async function MoviePage(props: {
   );
   const similarData = await similarResponse.json();
 
-  const trailerWeNeed = trailer.results?.find((video: Trailer) => {
+  const trailerWeNeed = trailer.results?.find((video: TrailerType) => {
     return video.type === "Trailer";
   });
   const director = actorsData.crew?.find((job: CrewType) => {
@@ -89,7 +90,13 @@ export default async function MoviePage(props: {
 
           <div className="flex justify-center items-center gap-2">
             <h2>Rating</h2>
-            <img src="/star.svg" alt="" className="w-[30px] h-[50px]" />
+            <Image
+              width={1000}
+              height={1000}
+              src="/star.svg"
+              alt=""
+              className="w-[30px] h-[50px]"
+            />
             <p> {data.vote_average?.toFixed(1)}/10</p>
             <p> {voteCount.toFixed(1)}k</p>
           </div>

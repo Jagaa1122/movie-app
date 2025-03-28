@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { GenreType } from "@/util/types";
 
 export async function Genre() {
   const genresResponse = await fetch(

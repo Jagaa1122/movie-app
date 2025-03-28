@@ -1,3 +1,4 @@
+import { MovieType } from "@/util/types";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,7 +23,7 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
             </div>
             <div className="p-4">
               <div className="text-[12px] mt-6 flex align-middle">
-                <img src="star.svg" alt="" />
+                <Image src="star.svg" alt="" width={239} height={540} />
                 <p>
                   <span className="text-[14px] font-bold">
                     {d.vote_average.toFixed(1)}

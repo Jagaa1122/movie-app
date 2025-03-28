@@ -1,4 +1,3 @@
-// app/_components/Input.tsx
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, SearchIcon } from "lucide-react";
@@ -7,55 +6,59 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Fetchdata from "@/util/inputData";
- 
+import { MovieType } from "@/util/types";
+
 const SearchInput = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
- 
+
   const searchHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const search = e.target.value.toLowerCase();
     setSearchValue(search);
- 
+
     if (search === "") {
       setSearchResults([]);
       setIsPopupVisible(false);
       return;
     }
- 
+
     const searchData = await Fetchdata(
       `/search/movie?query=${e.target.value.toLowerCase()}&language=en-US`
     );
- 
+
     setSearchResults(searchData.results || []);
     setIsPopupVisible(true);
   };
- 
+
   const clickHandler = () => {
     setSearchResults([]);
     setSearchValue("");
     setIsPopupVisible(false);
   };
- 
+
   const handleSeeAllResults = () => {
     router.push(`/search?query=${encodeURIComponent(searchValue)}&page=1`);
     setIsPopupVisible(false);
   };
- 
+
   // Close popup when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
         setIsPopupVisible(false);
       }
     };
- 
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
- 
+
   return (
     <div className="relative w-[381px]">
       <div className="absolute left-2.5 top-[10px] h-4 w-4 text-muted-foreground">
@@ -69,8 +72,9 @@ const SearchInput = () => {
         onChange={searchHandler}
         className="w-full h-[38px] rounded-lg bg-background py-3 pl-8 focus:outline-hidden flex items-center pt-3"
       />
- 
-      {isPopupVisible && (searchResults.length > 0 || searchValue.length > 0) ? (
+
+      {isPopupVisible &&
+      (searchResults.length > 0 || searchValue.length > 0) ? (
         <div
           ref={popupRef}
           className="w-[577px] flex p-3 flex-col items-start rounded-[8px] border-[1px] dark:border-[#27272a] dark:bg-[#09090B] bg-white border-[#efefef] absolute z-50 mt-2 ml-[-145px]"
@@ -126,16 +130,16 @@ const SearchInput = () => {
             onClick={handleSeeAllResults}
             className="w-full mt-2 p-2 text-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer"
           >
-            See all results for "{searchValue}"
+            See all results for `&quot;`{searchValue}`&quot;`
           </button>
         </div>
       ) : searchValue.length > 1 && searchResults.length === 0 ? (
         <div className="absolute mt-4 z-10 bg-white p-8 rounded-lg border dark:bg-[#09090B] dark:border-[#27272a]">
-          <p>No results found for "{searchValue}"</p>
+          <p>No results found for `&quot;`{searchValue}`&quot;`</p>
         </div>
       ) : null}
     </div>
   );
 };
- 
+
 export default SearchInput;

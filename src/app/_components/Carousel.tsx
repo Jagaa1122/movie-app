@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import Trailer from "./Trailer";
 import Autoplay from "embla-carousel-autoplay";
+import { MovieType } from "@/util/types";
 
 export function CarouselHome() {
   const [data, setData] = useState<MovieType[] | null>(null);
@@ -69,7 +70,13 @@ export function CarouselHome() {
                     <p className="">Now Playing:</p>
                     <p className="text-[20px] font-bold">{d.original_title}</p>
                     <p className="flex text-[16px] items-center gap-1">
-                      <img className="size-7" src="star.svg" alt="" />
+                      <Image
+                        width={3000}
+                        height={3000}
+                        className="size-7"
+                        src="star.svg"
+                        alt=""
+                      />
                       <span className="text-[18px] font-bold flex">
                         {" "}
                         {d.vote_average.toFixed(1)}

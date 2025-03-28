@@ -2,16 +2,27 @@ import { TOKEN } from "@/util/constants";
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/app/_components/Pagination";
+import { MovieType } from "@/util/types";
 
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: { category: string };
-  searchParams: { page?: string };
-}) {
-  const { category } = params;
-  const page = searchParams.page ? Number(searchParams.page) : 1;
+export default async function Page(
+  props: {
+    params: Promise<{ category: string }>;
+    searchParams: Promise<{ page: string }>;
+  }
+  //   {
+  //   params,
+  //   searchParams,
+  // }: {
+  //   params: { category: string };
+  //   searchParams: { page?: string };
+  // }
+) {
+  // props: {
+  //   params: Promise<{ movieId: string }>;
+  // }
+  const { searchParams, params } = await props;
+  const { category } = await params;
+  const { page } = await searchParams;
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`,
     {
@@ -28,7 +39,7 @@ export default async function Page({
   return (
     <div>
       <div className="grid grid-cols-5 gap-[32px] max-w-[1440px]">
-        {data.results?.slice(0, 20).map((d: MovieType, index: number) => {
+        {data.results?.slice(0, 20).map((d: MovieType) => {
           return (
             <Link
               href={`/${d.id}`}
@@ -46,7 +57,7 @@ export default async function Page({
               </div>
               <div className="p-4">
                 <div className="text-[12px] mt-6 flex align-middle">
-                  <img src="/star.svg" alt="" />
+                  <Image src="/star.svg" alt="" width={1000} height={1000} />
                   <p>
                     <span className="text-[14px] font-bold">
                       {" "}
@@ -64,7 +75,7 @@ export default async function Page({
           );
         })}
       </div>
-      <Pagination currentPage={page} totalPages={data.total_pages} />
+      <Pagination currentPage={Number(page)} totalPages={data.total_pages} />
     </div>
   );
 }

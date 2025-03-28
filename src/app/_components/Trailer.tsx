@@ -5,14 +5,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { ArrowRight, PlayIcon } from "lucide-react";
+import { PlayIcon } from "lucide-react";
 import { TOKEN } from "@/util/constants";
-export default function Trailer({ data }: { data: number }) {
-  const [trailer, setTrailer] = useState<Trailer | null>(null);
+import { TrailerType } from "@/util/types";
 
-  const getTrailerData = async () => {
+export default function Trailer({ data }: { data: number }) {
+  const [trailer, setTrailer] = useState<TrailerType | null>(null);
+  const getTrailerData = useCallback(async (data: number) => {
     const trailerData = await fetch(
       `https://api.themoviedb.org/3/movie/${data}/videos?language=en-US&page=1`,
       {
@@ -23,14 +24,15 @@ export default function Trailer({ data }: { data: number }) {
       }
     );
     const trailers = await trailerData.json();
-    const trailerWeNeed = trailers.results?.find((video: Trailer) => {
+    const trailerWeNeed = trailers.results?.find((video: TrailerType) => {
       return video.type === "Trailer";
     });
     setTrailer(trailerWeNeed);
-  };
-  useEffect(() => {
-    getTrailerData();
   }, []);
+
+  useEffect(() => {
+    getTrailerData(data);
+  }, [getTrailerData, data]);
 
   return (
     <Dialog>

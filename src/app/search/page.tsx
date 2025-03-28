@@ -7,6 +7,7 @@ import SearchPagination from "@/app/_components/SearchPagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Genre, GenreType, MovieType } from "@/util/types";
 
 async function getMovies(query: string, page: number) {
   const searchResponse = await fetch(
@@ -41,9 +42,9 @@ export default function SearchResults() {
   const query = searchParams.get("query") || "";
   const genreIds = searchParams.get("genreIds") || "";
 
-  const [searchData, setSearchData] = useState<any>(null);
-  const [filteredResults, setFilteredResults] = useState<any[]>([]);
-  const [genres, setGenres] = useState<any[]>([]);
+  const [searchData, setSearchData] = useState<number>();
+  const [filteredResults, setFilteredResults] = useState<[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,7 +91,7 @@ export default function SearchResults() {
         {/* Left side - Movies */}
         <div className="flex-1">
           <h1 className="text-[24px] font-semibold mb-8">
-            Search Results for "{query}"
+            Search Results for `&quot;`{query}`&quot;`
           </h1>
 
           <div className="w-[806px] items-start flex flex-wrap self-stretch gap-8">
@@ -137,10 +138,7 @@ export default function SearchResults() {
             ))}
           </div>
 
-          <SearchPagination
-            currentPage={currentPage}
-            totalPages={searchData.total_pages}
-          />
+          <SearchPagination currentPage={currentPage} totalPages={searchData} />
         </div>
 
         {/* Right side - Genres */}

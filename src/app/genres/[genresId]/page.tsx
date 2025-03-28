@@ -6,8 +6,9 @@ import GenrePagination from "@/app/_components/GenrePagination";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
+import { GenreType, MovieType } from "@/util/types";
 
-export default function ({
+export default function Page({
   params,
 }: {
   params: Promise<{ genresId: string }>;

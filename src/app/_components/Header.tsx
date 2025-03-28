@@ -13,10 +13,12 @@ export function Header() {
       <div className="flex gap-4">
         <Genre />
         <div className="relative">
-          <img
+          <Image
             className="absolute top-[6px] left-[6px] w-[20px]"
             src="searchIcon.svg"
             alt=""
+            width={100}
+            height={100}
           />
           <SearchInput />
         </div>

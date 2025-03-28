@@ -8,7 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useSearchParams, usePathname, useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function MoviePagination({
   currentPage,

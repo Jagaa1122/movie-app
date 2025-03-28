@@ -1,3 +1,4 @@
+import { MovieType } from "@/util/types";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,7 +23,7 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
             </div>
             <div className="p-1">
               <div className="text-[12px] flex ">
-                <img src="star.svg" alt="" />
+                <Image src="star.svg" alt="" width={239} height={540} />
                 <p>
                   <span className="text-[14px] font-bold">
                     {" "}
@@ -42,8 +43,3 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
     </div>
   );
 }
-// data type ->
-// page:number,
-// results: MovieType[],
-// total_pages:number,
-// total_results:number,
