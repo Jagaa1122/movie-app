@@ -91,8 +91,8 @@ export default async function MoviePage(props: {
           <div className="flex justify-center items-center gap-2">
             <h2>Rating</h2>
             <Image
-              width={1000}
-              height={1000}
+              width={15}
+              height={15}
               src="/star.svg"
               alt=""
               className="w-[30px] h-[50px]"

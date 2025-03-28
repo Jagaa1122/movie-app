@@ -1,7 +1,7 @@
 import { TOKEN } from "@/util/constants";
 import Image from "next/image";
 import Link from "next/link";
-import Pagination from "@/app/_components/Pagination";
+// import Pagination from "@/app/_components/Pagination";
 import { MovieType } from "@/util/types";
 
 export default async function Page(
@@ -9,22 +9,18 @@ export default async function Page(
     params: Promise<{ category: string }>;
     searchParams: Promise<{ page: string }>;
   }
-  //   {
+  // {
   //   params,
   //   searchParams,
   // }: {
   //   params: { category: string };
-  //   searchParams: { page?: string };
+  //   searchParams: { page?: number };
   // }
 ) {
-  // props: {
-  //   params: Promise<{ movieId: string }>;
-  // }
-  const { searchParams, params } = await props;
-  const { category } = await params;
-  const { page } = await searchParams;
+  const { category } = await props.params;
+  const { page } = await props.searchParams;
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`,
+    `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`,
     {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
@@ -34,7 +30,8 @@ export default async function Page(
   );
 
   const data = await response.json();
-  console.log(`Fetching page: ${page}`, data);
+
+  console.log(`Fetching page: ${Number(page)}`, data);
 
   return (
     <div>
@@ -57,7 +54,7 @@ export default async function Page(
               </div>
               <div className="p-4">
                 <div className="text-[12px] mt-6 flex align-middle">
-                  <Image src="/star.svg" alt="" width={1000} height={1000} />
+                  <Image src="/star.svg" alt="" width={15} height={15} />
                   <p>
                     <span className="text-[14px] font-bold">
                       {" "}
@@ -75,7 +72,7 @@ export default async function Page(
           );
         })}
       </div>
-      <Pagination currentPage={Number(page)} totalPages={data.total_pages} />
+      {/* <Pagination currentPage={Number(page)} totalPages={Number(data)} /> */}
     </div>
   );
 }

@@ -40,7 +40,7 @@ export default async function Similar(props: {
               </div>
               <div className="p-4">
                 <div className="text-[12px] mt-6 flex align-middle">
-                  <Image src="/star.svg" alt="" width={1000} height={1000} />
+                  <Image src="/star.svg" alt="" width={15} height={15} />
                   <p>
                     <span className="text-[14px] font-bold">
                       {" "}
