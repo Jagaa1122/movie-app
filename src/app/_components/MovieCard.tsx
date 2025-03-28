@@ -23,7 +23,7 @@ export default async function MovieCard({ data }: { data: MovieType[] }) {
             </div>
             <div className="p-4">
               <div className="text-[12px] mt-6 flex align-middle">
-                <Image src="star.svg" alt="" width={239} height={540} />
+                <Image src="star.svg" alt="" width={15} height={15} />
                 <p>
                   <span className="text-[14px] font-bold">
                     {d.vote_average.toFixed(1)}
